@@ -8,6 +8,7 @@
 int getTime(char* readTimePar, char* userAMPMPar) {
 	int returnTime;
 	int i;
+	int afterColon = 0;
 	char newReadTime[4];
 
 	bool hasColon = false;
@@ -17,6 +18,8 @@ int getTime(char* readTimePar, char* userAMPMPar) {
 		if (readTimePar[i] != ':') {
 
 			if (hasColon == true) {
+
+				afterColon ++;
 
 				newReadTime[i - 1] = readTimePar[i];
 
@@ -39,6 +42,18 @@ int getTime(char* readTimePar, char* userAMPMPar) {
 
 		}
 
+	}
+
+	if (hasColon == false){
+
+		return -1;
+
+	}
+
+	if (afterColon != 2){
+
+		return -1;
+		
 	}
 
 	returnTime = atoi(newReadTime);
