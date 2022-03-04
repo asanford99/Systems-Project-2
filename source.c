@@ -573,7 +573,15 @@ int main() {
 
 		}
 
-		float* taxiCosts = (float*)malloc(tripDays * sizeof(float));
+		if (taxiDays > tripDays){
+
+			printf("Invalid input. Please enter a valid number of days less than the amount of days on trip.\n");
+
+			goto readTaxiDays;
+
+		}
+
+		float* taxiCosts = (float*)malloc(taxiDays * sizeof(float));
 
 		for (i = 0; i < taxiDays; i++){
 
@@ -616,7 +624,11 @@ int main() {
 
 
 	
-
+	free(hotelCosts);
+	free(parkingCosts);
+	free(breakfastCosts);
+	free(lunchCosts);
+	free(dinnerCosts);
 
 
 	return 0;
