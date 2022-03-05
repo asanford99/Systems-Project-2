@@ -10,11 +10,8 @@ float sumOf(float arr[], int size)
     // Iterate through all elements and add them to sum.
     for(int i = 0; i < size; i++)
     {
-        if(arr[i] < 0)
-        {
-            printf("Invalid value!");
-        }
-        else
+        //Checking if the value of array is positive, if not then do not add it to the sum.
+        if(arr[i] >= 0)
         {
             sum += arr[i];
         }
