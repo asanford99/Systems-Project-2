@@ -34,7 +34,7 @@ float validInput(char userInput[20])
 
 		  }
 	  }
-    if(atof(userInput) == 0 || atof(userInput) < 0)
+    if(atof(userInput) < 0)
     {
        printf("Invalid input. Please enter again.\n");
 
