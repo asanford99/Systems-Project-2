@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 // Calculates the total amount of occurence for each expenses with the cap of what the company is willing to spend
 float allowedExpense (int breakfastMeals, int lunchMeals, int dinnerMeals, int taxiDays, int parkingDays, int hotelNights, float airfareCost, float carRentalCost, float privateVehicleCost, float seminarCost)
