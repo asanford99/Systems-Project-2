@@ -20,7 +20,3 @@ float sumOf(float arr[], int size)
     return sum;
 }
 
-int main()
-{
-    return 0;
-}
