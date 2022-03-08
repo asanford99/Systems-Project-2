@@ -53,7 +53,4 @@ float validInput(char userInput[20])
     
 }
 
-int main()
-{
-    return 0;
-}
+
