@@ -112,7 +112,3 @@ int getTime(char* readTimePar, char* userAMPMPar) {
 
 }
 
-int main ()
-{
-    return 0;
-}
