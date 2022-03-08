@@ -5,11 +5,15 @@
 #include<string.h>
 
 
- float* returnArray(float *array, int size, int value)
+float* returnArray(float *array, int size, int value)
  {
+	 int i = 0;
      
-     float* Array = malloc(sizeof(int) * size);
-     for(int i = 0; i < size; i++)
+     float* Array = {0};
+	 Array = (float*)malloc(sizeof(float) * size);
+	 
+
+     for(i = 0; i < size; i++)
      {
           Array[i] = value - array[i];
          
@@ -19,16 +23,19 @@
 
 float validInput(char userInput[20])
 {
+	goto functionStart;
+
     readInput:
     scanf("%s", userInput);
     
+	functionStart:
   	if (!strtof(userInput, NULL))
    {
 
 		  if(strcmp(userInput, "0"))
     {
 
-			     printf("Invalid input. Please enter again.\n");
+			     printf("Invalid input. Please enter again: $");
 			
 		     	goto readInput;
 
@@ -36,7 +43,7 @@ float validInput(char userInput[20])
 	  }
     if(atof(userInput) < 0)
     {
-       printf("Invalid input. Please enter again.\n");
+       printf("Invalid input. Please enter again: $");
 
       goto readInput;
     }
