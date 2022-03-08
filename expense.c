@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 // Calculates the total amount of occurence for each expenses with the cap of what the company is willing to spend
-float allowedExpense (int breakfastMeals, int lunchMeals, int dinnerMeals, int taxiDays, int parkingDays, int hotelNights, float airfareCost, float carRentalCost, float privateVehicleCost, float seminarCost)
+float allowedExpense (int breakfastMeals, int lunchMeals, int dinnerMeals, int taxiDays, int parkingDays, int hotelNights, int milesDriven, float airfareCost, float carRentalCost,  float seminarCost)
 {
     float returnValue = 0;
 
@@ -16,90 +16,100 @@ float allowedExpense (int breakfastMeals, int lunchMeals, int dinnerMeals, int t
     returnValue += (hotelNights * 90);
     returnValue += airfareCost;
     returnValue += carRentalCost;
-    returnValue += privateVehicleCost;
+    returnValue += (milesDriven * .27);
     returnValue += seminarCost;
 
     return returnValue;
 }
 
 // Gives the time a number value and converts to military time
-int getTime(char* readTimePar, char* userAMPMPar)
-{
-	int returnTime;
-	int i;
+int getTime(char* readTimePar, char* userAMPMPar) {
+	int returnTime = 0;
+	int i = 0;
 	int afterColon = 0;
-	char newReadTime[4];
+	char newReadTime[4] = "";
 
 	bool hasColon = false;
 
-	for (int i = 0; i < strlen(readTimePar); i++)
+	for (i = 0; i < strlen(readTimePar); i++)
 	{
-		if (readTimePar[i] != ':')
-        {
-			if (hasColon == true)
-            {
+		if (readTimePar[i] != ':') {
+
+			if (hasColon == true) {
+
 				afterColon ++;
+
 				newReadTime[i - 1] = readTimePar[i];
+
 			}
-			else
-            {
+			else {
 				newReadTime[i] = readTimePar[i];
 			}
+
 		}
-		else
-        {
+		else {
 			hasColon = true;
 		}
 	}
 
-	if (!strtod(newReadTime, NULL))
-    {
-		if(strcmp(readTimePar, "0"))
-        {
+	if (!strtod(newReadTime, NULL)) {
+
+		if(strcmp(readTimePar, "0")){
+
 			return -1;
+
 		}
+
 	}
 
-	if (hasColon == false)
-    {
+	if (hasColon == false){
+
 		return -1;
+
 	}
 
-	if (afterColon != 2)
-    {
-		return -1;	
+	if (afterColon != 2){
+
+		return -1;
+		
 	}
 
 	returnTime = atoi(newReadTime);
 
-	if (returnTime < 0)
-    {
+	if (returnTime < 0) {
+
 		return -1;
+
 	}
 
-	if (!strcmp(userAMPMPar, "PM"))
-    {
+	if (!strcmp(userAMPMPar, "PM")) {
+
 		returnTime = returnTime + 1200;
+
 	}
-	else
-    {
-		if (strcmp(userAMPMPar, "AM"))
-        {
+	else{
+
+		if (strcmp(userAMPMPar, "AM")){
+
 			return -1;
+
 		}
 	}
 
-	if (returnTime == 2400)
-    {
+	if (returnTime == 2400) {
+
 		returnTime = 0;
+
 	}
 
-	if (returnTime > 2400)
-    {
+	if (returnTime > 2400){
+
 		return -1;
+
 	}
 
 	return returnTime;
+
 }
 
 int main ()
