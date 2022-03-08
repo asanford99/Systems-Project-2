@@ -1,110 +1,22 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<stdbool.h>
-
-
-//gives the time a number value and converts to military time
-int getTime(char* readTimePar, char* userAMPMPar) {
-	int returnTime;
-	int i;
-	int afterColon = 0;
-	char newReadTime[4];
-
-	bool hasColon = false;
-
-	for (int i = 0; i < strlen(readTimePar); i++)
-	{
-		if (readTimePar[i] != ':') {
-
-			if (hasColon == true) {
-
-				afterColon ++;
-
-				newReadTime[i - 1] = readTimePar[i];
-
-			}
-			else {
-				newReadTime[i] = readTimePar[i];
-			}
-
-		}
-		else {
-			hasColon = true;
-		}
-	}
-
-	if (!strtod(newReadTime, NULL)) {
-
-		if(strcmp(readTimePar, "0")){
-
-			return -1;
-
-		}
-
-	}
-
-	if (hasColon == false){
-
-		return -1;
-
-	}
-
-	if (afterColon != 2){
-
-		return -1;
-		
-	}
-
-	returnTime = atoi(newReadTime);
-
-	if (returnTime < 0) {
-
-		return -1;
-
-	}
-
-	if (!strcmp(userAMPMPar, "PM")) {
-
-		returnTime = returnTime + 1200;
-
-	}
-	else{
-
-		if (strcmp(userAMPMPar, "AM")){
-
-			return -1;
-
-		}
-	}
-
-	if (returnTime == 2400) {
-
-		returnTime = 0;
-
-	}
-
-	if (returnTime > 2400){
-
-		return -1;
-
-	}
-
-	return returnTime;
-
-}
-
 int main() {
 	int tripDays = 0;
 	int taxiDays = 0;
 	int departTime = 0;
 	int arriveTime = 0;
+	int breakfastMeals;
+	int lunchMeals;
+	int dinnerMeals;
 	int i;
-	float userNum;
+	float userNum = 0.0;
 	float airfaireCost = 0;
 	float carRentalCost = 0;
 	float milesDriven = 0;
 	float seminarFees = 0;
+	float allowedBusinessExpense = 0;
+	float businessManSpent = 0;
+	float businessManSaved = 0;
+	float businessManOwes = 0;
+	float businessPaid = 0;
 
 	bool usedTaxi;
 
@@ -181,117 +93,28 @@ int main() {
 	}
 
 	//takes input, validates, and stores into airfaireCost
-	readAirfaire:
-
 	printf("Round-trip airfaire cost: $");
 	scanf("%s", userInput);
 
-	if (!strtof(userInput, NULL)){
-
-		if(strcmp(userInput, "0")){
-
-			printf("Invalid input. Please use a valid monetary amount.\n");
-
-			goto readAirfaire;
-
-		}
-
-	}
-
-	airfaireCost = atof(userInput);
-
-	if (airfaireCost < 0){
-
-		printf("Invalid input. Please use a valid monetary amount.\n");
-
-		goto readSeminarFees;
-		
-	}
+	airfaireCost = validInput(userInput);
 
 	//takes input, validates, and stores into carRentalCost
-	readCarRental:
-
 	printf("Total car rentals cost: $");
 	scanf("%s", userInput);
 
-	if (!strtof(userInput, NULL)){
-
-		if(strcmp(userInput, "0")){
-
-			printf("Invalid input. Please use a valid monetary amount.\n");
-
-			goto readCarRental;
-
-		}
-
-	}
-
-	carRentalCost = atof(userInput);
-
-	if (carRentalCost < 0){
-
-		printf("Invalid input. Please use a valid monetary amount.\n");
-
-		goto readSeminarFees;
-		
-	}
+	carRentalCost = validInput(userInput);
 
 	//takes input, validates, and stores into milesDriven
-	readMilesDriven:
-
 	printf("Miles driven in private car (0 if not applicable): ");
 	scanf("%s", userInput);
 
-	if (!strtof(userInput, NULL)){
-
-		if(strcmp(userInput, "0")){
-
-			printf("Invalid input. Please use a valid number.\n");
-
-			goto readMilesDriven;
-
-		}
-
-	}
-
-	milesDriven = atof(userInput);
-
-	if (milesDriven < 0){
-
-		printf("Invalid input. Please use a valid number.\n");
-
-		goto readMilesDriven;
-		
-	}
+	milesDriven = validInput(userInput);
 
 	//takes input, validates, and stores into seminarFees
-	readSeminarFees:
-
 	printf("Conference or seminar registreation fees: $");
 	scanf("%s", userInput);
 
-	if (!strtof(userInput, NULL)){
-
-		if(strcmp(userInput, "0")){
-
-			printf("Invalid input. Please use a valid monetary amount.\n");
-
-			goto readSeminarFees;
-
-		}
-
-	}
-
-	seminarFees = atof(userInput);
-
-	if (seminarFees < 0){
-
-		printf("Invalid input. Please use a valid monetary amount.\n");
-
-		goto readSeminarFees;
-
-	}
-
+	seminarFees = validInput(userInput);
 	//declares dynamic array hotelCosts, takes input, validates and stores into hotelCosts
 	float* hotelCosts = (float*)malloc(tripDays * sizeof(float));
 
@@ -336,19 +159,21 @@ int main() {
 	//declares dynamic array breakfastCosts, takes input, validates,  and stores into breakfastCosts
 	int excludeDays = 0;
 
-	if (departTime < 700){
+	if (departTime > 700){
 
 		excludeDays += 1;
 
 	}
 
-	if (arriveTime > 800){
+	if (arriveTime < 800){
 
 		excludeDays += 1;
 
 	}
 
-	float* breakfastCosts = (float*)malloc((tripDays - excludeDays) * sizeof(float));
+	breakfastMeals = tripDays - excludeDays;
+
+	float* breakfastCosts = (float*)malloc((breakfastMeals) * sizeof(float));
 
 	for (i = 0; i < (tripDays - excludeDays); i++){
 
@@ -390,21 +215,24 @@ int main() {
 	//declares dynamic array lunchCosts, takes input, validates,  and stores into lunchCosts
 	excludeDays = 0;
 
-	if (departTime < 1200){
+	if (departTime > 1200){
 
 		excludeDays += 1;
 
 	}
 
-	if (arriveTime > 1300){
+	if (arriveTime < 1300){
 
 		excludeDays += 1;
 
 	}
 
-	float* lunchCosts = (float*)malloc((tripDays - excludeDays) * sizeof(float));
+	lunchMeals = tripDays - excludeDays;
 
-	for (i = 0; i < (tripDays - excludeDays); i++){
+	float* lunchCosts = {0};
+	lunchCosts = (float*)malloc((lunchMeals) * sizeof(float));
+
+	for (i = 0; i <= (tripDays - excludeDays); i++){
 
 		readLunchCosts:
 
@@ -441,22 +269,30 @@ int main() {
 
 	}
 
+	for (i = 0; i < lunchMeals; i++){
+		
+		printf("%f\n", lunchCosts[i]);
+
+	}
+
 	//declares dynamic array dinnerCosts, takes input, validates,  and stores into dinnerCosts
 	excludeDays = 0;
 
-	if (departTime < 1800){
+	if (departTime > 1800){
 
 		excludeDays += 1;
 
 	}
 
-	if (arriveTime > 1900){
+	if (arriveTime < 1900){
 
 		excludeDays += 1;
 
 	}
 
-	float* dinnerCosts = (float*)malloc((tripDays - excludeDays) * sizeof(float));
+	dinnerMeals = tripDays - excludeDays;
+
+	float* dinnerCosts = (float*)malloc((dinnerMeals) * sizeof(float));
 
 	for (i = 0; i < (tripDays - excludeDays); i++){
 
@@ -541,6 +377,8 @@ int main() {
 	printf("Was a taxi used during this trip? (Yes or No): ");
 	scanf("%s", userInput);
 
+	float* taxiCosts;
+
 	if (!strcmp(userInput, "Yes")){
 
 		usedTaxi = true;
@@ -596,7 +434,7 @@ int main() {
 
 		}
 
-		float* taxiCosts = (float*)malloc(taxiDays * sizeof(float));
+		taxiCosts = (float*)malloc(taxiDays * sizeof(float));
 
 		for (i = 0; i < taxiDays; i++){
 
@@ -631,12 +469,75 @@ int main() {
 
 				taxiCosts[i] = userNum;
 
+				
+
 			}
 
 		}
 
 	}
 
+	//gets the total amount possible that the business may pay
+	allowedBusinessExpense = allowedExpense(breakfastMeals, lunchMeals, dinnerMeals, taxiDays, tripDays, (tripDays - 1), milesDriven, airfaireCost, carRentalCost, seminarFees);
+
+	//gets the total amount that the businessman spent
+	businessManSpent += airfaireCost;
+	businessManSpent += carRentalCost;
+	businessManSpent += (milesDriven * .27);
+	businessManSpent += sumOf(parkingCosts, tripDays);
+	if (usedTaxi == true){
+
+		businessManSpent += sumOf(taxiCosts, taxiDays);
+
+	}
+	businessManSpent += seminarFees;
+	businessManSpent += sumOf(hotelCosts, (tripDays - 1));
+	businessManSpent += sumOf(breakfastCosts, breakfastMeals);
+	businessManSpent += sumOf(lunchCosts, lunchMeals);
+	businessManSpent += sumOf(dinnerCosts, dinnerMeals);
+
+	//gets the total amount that the businessman saved
+	businessManSaved += sumOf(returnArray(breakfastCosts, breakfastMeals, 9), breakfastMeals);
+	businessManSaved += sumOf(returnArray(lunchCosts, lunchMeals, 12), lunchMeals);
+	businessManSaved += sumOf(returnArray(dinnerCosts, dinnerMeals, 16), dinnerMeals);
+	businessManSaved += sumOf(returnArray(parkingCosts, tripDays, 6), tripDays);
+	businessManSaved += sumOf(returnArray(hotelCosts, (tripDays - 1), 90), (tripDays - 1));
+	if (usedTaxi == true){
+
+		businessManSaved += sumOf(returnArray(taxiCosts, taxiDays, 10), taxiDays);
+
+	}
+
+	//gets the total amount that the businessman owes
+	businessManOwes += sumOfNegativeNumbers(returnArray(breakfastCosts, breakfastMeals, 9), breakfastMeals);
+	businessManOwes += sumOfNegativeNumbers(returnArray(lunchCosts, lunchMeals, 12), lunchMeals);
+	businessManOwes += sumOfNegativeNumbers(returnArray(dinnerCosts, dinnerMeals, 16), dinnerMeals);
+	businessManOwes += sumOfNegativeNumbers(returnArray(parkingCosts, tripDays, 6), tripDays);
+	businessManOwes += sumOfNegativeNumbers(returnArray(hotelCosts, (tripDays - 1), 90), (tripDays - 1));
+	if (usedTaxi == true){
+
+		businessManOwes += sumOfNegativeNumbers(returnArray(taxiCosts, taxiDays, 10), taxiDays);
+
+	}
+
+	businessManOwes = businessManOwes * (-1);
+
+	//gets what amount the company will spend from the amount that the businessman spent
+	businessPaid = businessManSpent - businessManOwes;
+
+	//rounds values to two decimal places for a monetary value
+	allowedBusinessExpense = roundf(allowedBusinessExpense * 100)/100;
+	businessManSpent = roundf(businessManSpent * 100)/100;
+	businessManSaved = roundf(businessManSaved * 100)/100;
+	businessManOwes = roundf(businessManOwes * 100)/100;
+	businessPaid = roundf(businessPaid * 100)/100;
+
+	//outputs results
+	printf("\nTotal expenses allowed for trip: %.2f\n", allowedBusinessExpense);
+	printf("Total amount spent by businessman: %.2f\n", businessManSpent);
+	printf("Total amount saved by businessman: %.2f\n", businessManSaved);
+	printf("Total amount businessman owes: %.2f\n", businessManOwes);
+	printf("Total amount business is willing to spend on trip from amount spent: %.2f\n\n", businessPaid);
 
 	
 	free(hotelCosts);
@@ -644,6 +545,11 @@ int main() {
 	free(breakfastCosts);
 	free(lunchCosts);
 	free(dinnerCosts);
+	if (usedTaxi == true){
+
+		free(taxiCosts);
+
+	}
 
 
 	return 0;
