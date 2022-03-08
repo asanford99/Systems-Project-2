@@ -6,10 +6,10 @@
 float sumOfNegativeNumbers(float arr[], int size)
 {
     float sum = 0.0;
+	int i = 0;
 
     // Iterate through all elements and add them to sum.
-    //If an value is positive donot add it to the sum.
-    for(int i = 0; i < size; i++)
+    for(i = 0; i < size; i++)
     {
         //Checking if the value of array is negative, if not then do not add it to the sum.
         if(arr[i] < 0)
