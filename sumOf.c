@@ -6,9 +6,10 @@
 float sumOf(float arr[], int size)
 {
     float sum = 0.0;
+	int i = 0;
 
     // Iterate through all elements and add them to sum.
-    for(int i = 0; i < size; i++)
+    for(i = 0; i < size; i++)
     {
         //Checking if the value of array is positive, if not then do not add it to the sum.
         if(arr[i] >= 0)
