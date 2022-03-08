@@ -3,10 +3,10 @@
 #include<string.h>
 #include<math.h>
 #include<stdbool.h>
-#include<ReturnArray.c>
-#include<expenses.c>
-#include<sumOf.c>
-#include<sumOfNegativeNumbers.c>
+#include"ReturnArray.c"
+#include"expense.c"
+#include"sumOf.c"
+#include"sumOfNegativeNumbers.c"
 
 
 int main() {
@@ -243,7 +243,7 @@ int main() {
 	float* lunchCosts = {0};
 	lunchCosts = (float*)malloc((lunchMeals) * sizeof(float));
 
-	for (i = 0; i <= (tripDays - excludeDays); i++){
+	for (i = 0; i < (tripDays - excludeDays); i++){
 
 		readLunchCosts:
 
