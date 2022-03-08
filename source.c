@@ -1,3 +1,14 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+#include<stdbool.h>
+#include<ReturnArray.c>
+#include<expenses.c>
+#include<sumOf.c>
+#include<sumOfNegativeNumbers.c>
+
+
 int main() {
 	int tripDays = 0;
 	int taxiDays = 0;
