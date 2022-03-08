@@ -269,12 +269,6 @@ int main() {
 
 	}
 
-	for (i = 0; i < lunchMeals; i++){
-		
-		printf("%f\n", lunchCosts[i]);
-
-	}
-
 	//declares dynamic array dinnerCosts, takes input, validates,  and stores into dinnerCosts
 	excludeDays = 0;
 
